@@ -42,8 +42,9 @@ public class MatchScreenController implements Initializable {
 	
 	// Teams
 	GrabDataFromDatabase teams = new TeamsGrabber(conn);
-	GrabDataFromDatabase players = new PlayersGrabber(conn);
-	PlayerAssignment pA = new PlayerAssignment(teams.getDataList(), players.getDataList());
+	GrabDataFromDatabase players = new PlayersGrabber(conn);	
+	@SuppressWarnings("unchecked")
+	PlayerAssignment pA = new PlayerAssignment((List<Team>)(teams.getDataList()), ((List<Player>)players.getDataList()));
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -85,9 +86,13 @@ public class MatchScreenController implements Initializable {
 			}
 		}
 		
+		
 		try {
-			Match match = new Match(chosen1, chosen2);
-			result.setText(match.playMatch() + " wins!");
+			displayMatchResult(new Match(chosen1, chosen2), result);			
+		}
+		
+		catch (CustomMatchException e) {
+			result.setText(e.toString());
 		}
 		
 		catch (Exception e) {
@@ -95,6 +100,15 @@ public class MatchScreenController implements Initializable {
 		}
 		
 		result.setVisible(true);
+	}
+	
+	public void displayMatchResult(Match match, Label result) throws CustomMatchException {
+		
+		if (match.getTeam1().getTeamID() == match.getTeam2().getTeamID()) {
+			throw new CustomMatchException(match.getTeam1(), match.getTeam2());
+		}
+		
+		result.setText(match.playMatch() + " wins!");
 	}
 	
 }
