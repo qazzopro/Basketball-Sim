@@ -3,47 +3,53 @@ package javaFiles;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayersGrabber implements GrabDataFromDatabase {
+public class PlayersGrabber extends GrabDataFromDatabase {
 	private Connection conn;
 	private List<Player> players = new ArrayList<>();
+	private String sqlCommand = "SELECT PlayerID, PlayerName, TeamID, Skill FROM Players";
 
 	public PlayersGrabber(Connection conn) {
 		super();
 		this.conn = conn;
 	}
 	
-	public void addPlayer(Player player) {
-		players.add(player);
-	}
-	
-	public void deleteplayer(Player player) {
-		players.remove(player);
-	}
-	
-	public List<Player> getDataList() {
-		return players;
+	@Override
+	public <E> void addData(E e) {
+		players.add((Player)e);
 	}
 	
 	@Override
-	public void grabFromDatabase() {
-		String sqlCommand = "SELECT PlayerID, PlayerName, TeamID, Skill FROM Players";
-		
+	public <E> void deleteData(E e) {
+		players.remove((Player) e);
+	}
+	
+	@Override
+	public List<Player> getDataList() {
+		return players;
+	}
+
+	@Override
+	public String getSQLCommand() {
+		return sqlCommand;
+	}
+
+	@Override
+	public Connection getConn() {
+		return conn;
+	}
+
+	@Override
+	public Object FromSQL() {
 		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sqlCommand);
-			
-			while (rs.next()) {
-				this.addPlayer(new Player(rs.getInt("PlayerID"), rs.getString("PlayerName"), 
-						rs.getInt("TeamID"), rs.getInt("Skill")));
-			}
-		}
+			return (Object)(new Player(super.getCurrRS().getInt("PlayerID"), super.getCurrRS().getString("PlayerName"), super.getCurrRS().getInt("TeamID"), super.getCurrRS().getInt("Skill")));
+		} 
 		
-		catch (SQLException e){
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return null;
 		}
 	}
 }

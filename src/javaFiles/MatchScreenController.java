@@ -2,6 +2,9 @@ package javaFiles;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -38,14 +41,12 @@ public class MatchScreenController implements Initializable {
 	Connection conn = db.getConnectionFromDatabase();
 	
 	// Teams
-	TeamsGrabber teams = new TeamsGrabber(conn);
-	PlayersGrabber players = new PlayersGrabber(conn);
+	GrabDataFromDatabase teams = new TeamsGrabber(conn);
+	GrabDataFromDatabase players = new PlayersGrabber(conn);
 	PlayerAssignment pA = new PlayerAssignment(teams.getDataList(), players.getDataList());
-	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
 		teams.grabFromDatabase();
 		players.grabFromDatabase();
 		pA.assignPlayers();
@@ -55,7 +56,7 @@ public class MatchScreenController implements Initializable {
 		obList.add("Select Team");
 
 		for (int i = 0; i < teams.getDataList().size(); i++) {
-			obList.add(teams.getDataList().get(i).getTeamName());
+			obList.add(((Team) (teams.getDataList().get(i))).getTeamName());
 		}
 		
 		obList.remove(32);
@@ -73,7 +74,8 @@ public class MatchScreenController implements Initializable {
 		Team chosen1 = null;
 		Team chosen2 = null;
 		
-		for (Team t : teams.getDataList()) {
+		for (int i = 0; i < teams.getDataList().size(); i++) {
+			Team t = (Team) teams.getDataList().get(i);
 			if (t.getTeamName() == team1.getValue()) {
 				chosen1 = t;
 			}

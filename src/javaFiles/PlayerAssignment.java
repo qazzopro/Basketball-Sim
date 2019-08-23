@@ -4,20 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerAssignment {
-	private List<Player> players = new ArrayList<>();
-	private List<Team> teams = new ArrayList<>();
+	private List<?> players;
+	private List<?> teams;
 	
-	public PlayerAssignment(List<Team> teams, List<Player> players) {
+	public PlayerAssignment(List<?> teams, List<?> players) {
 		super();
-		this.players = players;
 		this.teams = teams;
+		this.players = players;
 	}
 	
 	public void assignPlayers() {
-		for (Player p : players) {
-			for (Team t : teams) {
+		/*for (<?> p : players) {
+			for (<?> t : teams) {
 				if (p.getTeamID() == t.getTeamID()) {
 					t.addPlayer(p);
+					break;
+				}
+			}
+		}*/
+		
+		for (int i = 0; i < players.size(); i++) {
+			for (int j = 0; j < teams.size(); j++) {
+				if (((Player) players.get(i)).getTeamID() == ((Team) teams.get(j)).getTeamID()) {
+					((Team) teams.get(j)).addPlayer((Player)players.get(i));
 					break;
 				}
 			}

@@ -41,7 +41,6 @@ public class Team {
 		updateRatio();
 	}
 	
-	
 	/**
 	 * Updates winLossRatio by running checks on wins and losses
 	 * @pre (wins >= 0)
