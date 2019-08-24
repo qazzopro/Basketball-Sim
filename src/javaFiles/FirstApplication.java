@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Application for running the program
+ * Application for running the program.
  * @author Dean Jariv
  * @since 24 Aug 2019
  */
