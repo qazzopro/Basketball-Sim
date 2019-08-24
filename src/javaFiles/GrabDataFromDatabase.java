@@ -6,9 +6,17 @@ import java.sql.SQLException;
 import java.util.List;
 import java.sql.Statement;
 
+/**
+ * Parent class for classes that retrieve data from an SQLite database.
+ * @author Dean Jariv
+ * @since 24 Aug 2019
+ */
 public abstract class GrabDataFromDatabase {	
 	private ResultSet rs;
 	
+	/**
+	 * Returns the list of data from the object.
+	 */
 	public abstract List<?> getDataList();
 	
 	public abstract <E> void addData(E e);

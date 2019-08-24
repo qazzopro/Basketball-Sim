@@ -26,6 +26,9 @@ public class PlayersGrabber extends GrabDataFromDatabase {
 		players.remove((Player) e);
 	}
 	
+	/**
+	 * @return A list of players retreived from the database.
+	 */
 	@Override
 	public List<Player> getDataList() {
 		return players;
