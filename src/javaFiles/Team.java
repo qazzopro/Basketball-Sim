@@ -44,9 +44,9 @@ public class Team {
 	/**
 	 * Updates winLossRatio by running checks on wins and losses
 	 * @pre (wins >= 0)
-	 * @param wins
+	 * @param wins Number of wins team has
 	 * @pre (losses >= 0)
-	 * @param losses
+	 * @param losses Number of losses team has
 	 * @post winLossRatio = wins/losses
 	 */
 	public void updateRatio() {

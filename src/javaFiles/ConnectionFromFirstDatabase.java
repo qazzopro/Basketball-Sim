@@ -4,7 +4,6 @@ import java.sql.*;
 
 /**
  * This implementation creates a Connection using "src/sql/firstDB.db".
- * 
  */
 
 public class ConnectionFromFirstDatabase implements ConnectionInterface {
