@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"javaFiles","c":"ConnectionFromFirstDatabase","l":"ConnectionFromFirstDatabase()","url":"%3Cinit%3E()"},{"p":"javaFiles","c":"ConnectionFromFirstDatabase","l":"getConnectionFromDatabase()"}]
