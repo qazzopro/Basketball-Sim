@@ -1,11 +1,12 @@
 package javaFiles;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Team class for storing data about a basketball team.
+ * Stores data about a team.
  * @author Dean Jariv
- * @since 24 Aug 2019
+ * @since 26 Aug 2019
  */
 public class Team {
 	
@@ -16,17 +17,24 @@ public class Team {
 	private int losses;
 	private float WinLossRatio;
 	
-	public Team(int teamID, String TeamName, int wins, int losses) {
+	/**
+	 * Constructor for creating a Team object.
+	 * @param teamID Primary key.
+	 * @param teamName Name of the team.
+	 * @param wins Number of team wins.
+	 * @param losses Number of team losses.
+	 */
+	public Team(int teamID, String teamName, int wins, int losses) {
 		super();
-		this.TeamID = teamID;
-		this.TeamName = TeamName;
+		TeamID = teamID;
+		TeamName = teamName;
 		this.wins = wins;
 		this.losses = losses;
 		updateRatio();
 	}
-	
+
 	/**
-	 * Adds Player to the list of Players in the Team object.
+	 * Adds a player to the list of players in the team.
 	 * @param p Player to add. 
 	 */
 	public void addPlayer(Player p) {
@@ -34,7 +42,7 @@ public class Team {
 	}
 	
 	/**
-	 * Removes a Player from the list of Players in Team object.
+	 * Removes a player from the list of players in the team.
 	 * @param p Player to remove.
 	 */
 	public void removePlayer(Player p) {
@@ -42,7 +50,7 @@ public class Team {
 	}
 	
 	/**
-	 * Increment object's wins.
+	 * Increment team's wins.
 	 */
 	public void incrementWins() {
 		wins++;
@@ -50,7 +58,7 @@ public class Team {
 	}
 	
 	/**
-	 * Increments object's losses.
+	 * Increments team's losses.
 	 */
 	public void incrementLosses() {
 		losses++;
@@ -60,11 +68,10 @@ public class Team {
 	/**
 	 * Updates the object's winLossRatio by running checks on wins and losses.
 	 * <p>
+	 * Assumes wins and losses are not negative.
 	 * If wins is 0, winLossRatio = 0.
 	 * If wins is not 0, but losses is 0, winLossRatio = 1.
-	 * @pre wins &gt;= 0
-	 * @pre losses &gt;= 0
-	 * @post winLossRatio = win/losses
+	 * Otherwise, sets winLossRatio to wins/losses.
 	 */
 	public void updateRatio() {
 		if (getWins() == 0) this.setWinLossRatio(0);

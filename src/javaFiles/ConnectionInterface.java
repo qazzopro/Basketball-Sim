@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Abstract class for establishing a connection from an SQLite Database
+ * Creates a Connection object from an SQLite Database
  * @author Dean Jariv
- * @since 24 Aug 2019
+ * @since 26 Aug 2019
  */
 public abstract class ConnectionInterface {
 	/**
@@ -22,14 +22,13 @@ public abstract class ConnectionInterface {
 			conn = DriverManager.getConnection(getDatabasePath());
 		}
 		catch (SQLException e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return conn;
 	}
 	
 	/**
-	 * Returns the path to the database as a string.
-	 * @return path to database.
+	 * @return Path to the database as a string.
 	 */
 	public abstract String getDatabasePath(); 
 }

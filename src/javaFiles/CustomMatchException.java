@@ -1,9 +1,9 @@
 package javaFiles;
 
 /**
- * A custom exception class when creating 'Match'.
+ * Custom Exception for 'Match'.
  * @author Dean Jariv
- * @since 24 Aug 2019
+ * @since 26 Aug 2019
  */
 
 @SuppressWarnings("serial")
@@ -11,6 +11,11 @@ public class CustomMatchException extends Exception {
 	private Team team1;
 	private Team team2;
 	
+	/**
+	 * Constructor for creating a CustomMatchException object.
+	 * @param team1 One of the teams in the match.
+	 * @param team2 One of the teams in the match.
+	 */
 	public CustomMatchException(Team team1, Team team2) {
 		this.setTeam1(team1);
 		this.setTeam2(team2);

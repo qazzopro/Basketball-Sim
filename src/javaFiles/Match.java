@@ -3,9 +3,9 @@ package javaFiles;
 import java.util.Random;
 
 /**
- * Match class for creating matches for team to compete with one another.
+ * Creates matches for teams to compete with one another.
  * @author Dean Jariv
- * @since 24 Aug 2019
+ * @since 26 Aug 2019
  */
 public class Match {
 	private Team team1;

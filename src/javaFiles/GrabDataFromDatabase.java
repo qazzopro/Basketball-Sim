@@ -4,18 +4,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.sql.Statement;
 
 /**
- * Parent class for classes that retrieve data from an SQLite database.
+ * Retrieves data from an SQLite database.
  * @author Dean Jariv
- * @since 24 Aug 2019
+ * @since 26 Aug 2019
  */
 public abstract class GrabDataFromDatabase {	
 	private ResultSet rs;
 	
 	/**
-	 * Returns the list of data from the object.
+	 * @return A List of of data that the object stores.
 	 */
 	public abstract List<?> getDataList();
 	
@@ -24,32 +23,31 @@ public abstract class GrabDataFromDatabase {
 	 * @param <E> Generic element type that the list of data will have.
 	 * @param e The element added to the object's data list.
 	 */
-	public abstract <E> void addData(E e);
+	public abstract <E extends Object> void addData(E e);
 	
 	/**
 	 * Deletes data to the object's data list.
 	 * @param <E> Generic element type that the list of data will have.
 	 * @param e The element added to the object's data list.
 	 */
-	public abstract <E> void deleteData(E e); 
+	public abstract <E extends Object> void deleteData(E e); 
 	
 	/**
-	 * Returns the SQLite Command used for retrieving data.
+	 * @return SQLite command used for retreiving data.
 	 */
 	public abstract String getSQLCommand();
 	
 	/**
-	 * Returns a Connection object created from the database.
+	 * @return Connection object created from the database.
 	 */
 	public abstract Connection getConn();
 	
 	/**
-	 * Returns an Object created from SQLite command.
+	 * @return Object created from the data in the used SQLite command.
 	 */
 	public abstract Object FromSQL();
 	
 	/**
-	 * Returns the current row of database.
 	 * @return rs ResultSet variable for storing current row of database. 
 	 */
 	public ResultSet getCurrRS() {
@@ -62,7 +60,7 @@ public abstract class GrabDataFromDatabase {
 	 */
 	public void setInitialResultSet() {
 		try {
-			rs = getConn().createStatement().executeQuery(getSQLCommand());
+			this.setRs(getConn().createStatement().executeQuery(getSQLCommand()));
 		} 
 		
 		catch (SQLException e) {
@@ -71,13 +69,21 @@ public abstract class GrabDataFromDatabase {
 	}
 	
 	/**
+	 * A setter for current position of rs.
+	 * @param rs to set.
+	 */
+	public void setRs(ResultSet rs) {
+		this.rs = rs;
+	}
+
+	/**
 	 * Adds data to the object's data list from database.
 	 * May catch an SQLException, imported from java.sql
 	 */
 	public void grabFromDatabase() {
 		setInitialResultSet();
 		try {
-			while (rs.next())
+			while (getCurrRS().next())
 				addData(FromSQL());
 		}
 		

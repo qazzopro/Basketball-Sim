@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 /**
  * Application for running the program.
  * @author Dean Jariv
- * @since 24 Aug 2019
+ * @since 26 Aug 2019
  */
 public class FirstApplication extends Application { 
 	
@@ -18,10 +18,16 @@ public class FirstApplication extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("MatchScreen.fxml"));
-		primaryStage.setTitle("Play Match");
-		primaryStage.setScene(new Scene(root));
-		primaryStage.show();
+		try {
+			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/MatchScreen.fxml"));
+			primaryStage.setTitle("Play Match");
+			primaryStage.setScene(new Scene(root));
+			primaryStage.show();
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
