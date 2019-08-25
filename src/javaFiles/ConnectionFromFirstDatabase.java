@@ -10,19 +10,15 @@ import java.sql.SQLException;
  * @since 24 Aug 2019
  */
 
-public class ConnectionFromFirstDatabase implements ConnectionInterface {
-	private String sql = "jdbc:sqlite:C:/Users/Dean Jariv/git/Basketball Simulation/src/sql/firstDB.db";
-	
+public class ConnectionFromFirstDatabase extends ConnectionInterface {
+	/**
+	 * Returns path from firstDB.db.
+	 * Requires JDBC. 
+	 * @return path to the first database.
+	 */
 	@Override
-	public Connection getConnectionFromDatabase() {
-		Connection conn = null;
-		
-		try {
-			conn = DriverManager.getConnection(this.sql);
-		}
-		catch (SQLException e){
-			System.out.println(e.getMessage());
-		}
-		return conn;
+	public String getDatabasePath() {
+		return "jdbc:sqlite:C:/Users/Dean Jariv/git/Basketball Simulation/src/sql/firstDB.db";
 	}
+	
 }

@@ -2,16 +2,32 @@ package javaFiles;
 
 import java.util.Random;
 
+/**
+ * Match class for creating matches for team to compete with one another.
+ * @author Dean Jariv
+ * @since 24 Aug 2019
+ */
 public class Match {
 	private Team team1;
 	private Team team2;
 	
+	/**
+	 * Creates a match with two teams.
+	 * @param team1 First team in match.
+	 * @param team2 Second team in match.
+	 */
 	public Match(Team team1, Team team2) {
 		super();
 		this.team1 = team1;
 		this.team2 = team2;
 	}
 	
+	/**
+	 * "Plays" a match.
+	 * Winning team determined by the sum of skill attribute of all the players.
+	 * Returns the winning team.
+	 * @return Winning team as String. 
+	 */
 	public String playMatch() {
 		int x = 0;
 		int y = 0;
@@ -48,6 +64,10 @@ public class Match {
 		}
 	}
 	
+	/**
+	 * Changes the win/loss of the appropriate teams.
+	 * @return String: Winning team's name.
+	 */
 	public String team1Wins() {
 		team1.incrementWins();
 		team2.incrementLosses();
@@ -55,6 +75,10 @@ public class Match {
 		return team1.getTeamName();
 	}
 	
+	/**
+	 * Changes the win/loss of the appropriate teams.
+	 * @return String: Winning team's name.
+	 */
 	public String team2Wins() {
 		team1.incrementLosses();
 		team2.incrementWins();
@@ -62,21 +86,36 @@ public class Match {
 		return team2.getTeamName();
 	}
 
+	/**
+	 * A getter for team1.
+	 * @return team1.
+	 */
 	public Team getTeam1() {
 		return team1;
 	}
 
+	/**
+	 * A setter for team1.
+	 * @param team1 to set.
+	 */
 	public void setTeam1(Team team1) {
 		this.team1 = team1;
 	}
 
+	/**
+	 * A getter for team2.
+	 * @return team2.
+	 */
 	public Team getTeam2() {
 		return team2;
 	}
 
+	/**
+	 * A setter for team2.
+	 * @param team2 to set.
+	 */
 	public void setTeam2(Team team2) {
 		this.team2 = team2;
 	}
-	
 	
 }

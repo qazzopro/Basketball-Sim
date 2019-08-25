@@ -25,8 +25,8 @@ public class FirstApplication extends Application {
 	}
 	
 	/**
-	 * Launches the program
-	 * @param args for main
+	 * Launches the program.
+	 * @param args for main.
 	 */
 	public static void main (String args[]) {
 		launch(args);

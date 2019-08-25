@@ -21,6 +21,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for showing the match screen scene.
+ * @author Dean Jariv
+ * @since 24 Aug 2019
+ */
 public class MatchScreenController implements Initializable {
 
 	@FXML
@@ -36,20 +41,33 @@ public class MatchScreenController implements Initializable {
 	private Button playButton;
 	
 	
-	// Get Connection from SQLDatabase
-	ConnectionInterface db = new ConnectionFromFirstDatabase();
-	Connection conn = db.getConnectionFromDatabase();
+	
 	
 	// Teams
-	GrabDataFromDatabase teams = new TeamsGrabber(conn);
-	GrabDataFromDatabase players = new PlayersGrabber(conn);	
+	private GrabDataFromDatabase teams;
+	private GrabDataFromDatabase players; 	
 	@SuppressWarnings("unchecked")
 	PlayerAssignment pA = new PlayerAssignment((List<Team>)(teams.getDataList()), ((List<Player>)players.getDataList()));
-
+	
+	/** 
+	 * Initialise the controller (after constructor and FXML).
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		// Get Connection from SQLDatabase - could do in a method?
+		ConnectionInterface db = new ConnectionFromFirstDatabase();
+		Connection conn = db.getConnectionFromDatabase();
+		
+		// set teams - could do in method with above
+		teams = new TeamsGrabber(conn);
+		players = new PlayersGrabber(conn);
+		
+		// set the datalist to sets
 		teams.grabFromDatabase();
 		players.grabFromDatabase();
+		
+		// User pa to assign players to teams
 		pA.assignPlayers();
 		
 		ObservableList<String> obList = FXCollections.observableArrayList();
@@ -68,6 +86,10 @@ public class MatchScreenController implements Initializable {
 		team2.setValue("Select Team");
 	}
 	
+	/**
+	 * Button press on scene
+	 * @throws Exception - An exception
+	 */
 	@FXML
 	public void buttonPress() throws Exception {	
 		
@@ -102,6 +124,12 @@ public class MatchScreenController implements Initializable {
 		result.setVisible(true);
 	}
 	
+	/**
+	 * Displays the match result
+	 * @param match
+	 * @param result
+	 * @throws CustomMatchException
+	 */
 	public void displayMatchResult(Match match, Label result) throws CustomMatchException {
 		
 		if (match.getTeam1().getTeamID() == match.getTeam2().getTeamID()) {

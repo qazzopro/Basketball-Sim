@@ -17,7 +17,7 @@ public class CustomMatchException extends Exception {
 	}
 	
 	/**
-	 * Returns the error message for the specific error.
+	 * Returns a message for the specific error.
 	 */
 	@Override
 	public String toString() {
@@ -33,32 +33,32 @@ public class CustomMatchException extends Exception {
 	}
 
 	/**
-	 * A getter for team1
-	 * @return team1
+	 * A getter for team1.
+	 * @return team1.
 	 */
 	public Team getTeam1() {
 		return team1;
 	}
 
 	/**
-	 * A setter for team1
-	 * @param team1 to set
+	 * A setter for team1.
+	 * @param team1 to set.
 	 */
 	public void setTeam1(Team team1) {
 		this.team1 = team1;
 	}
 
 	/**
-	 * A getter for team2
-	 * @return team2
+	 * A getter for team2.
+	 * @return team2.
 	 */
 	public Team getTeam2() {
 		return team2;
 	}
 
 	/**
-	 * A setter for team2
-	 * @param team2 to set
+	 * A setter for team2.
+	 * @param team2 to set.
 	 */
 	public void setTeam2(Team team2) {
 		this.team2 = team2;

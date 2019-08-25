@@ -19,30 +19,61 @@ public abstract class GrabDataFromDatabase {
 	 */
 	public abstract List<?> getDataList();
 	
+	/**
+	 * Adds data to the object's data list.
+	 * @param <E> Generic element type that the list of data will have.
+	 * @param e The element added to the object's data list.
+	 */
 	public abstract <E> void addData(E e);
 	
+	/**
+	 * Deletes data to the object's data list.
+	 * @param <E> Generic element type that the list of data will have.
+	 * @param e The element added to the object's data list.
+	 */
 	public abstract <E> void deleteData(E e); 
 	
+	/**
+	 * Returns the SQLite Command used for retrieving data.
+	 */
 	public abstract String getSQLCommand();
 	
+	/**
+	 * Returns a Connection object created from the database.
+	 */
 	public abstract Connection getConn();
 	
+	/**
+	 * Returns an Object created from SQLite command.
+	 */
 	public abstract Object FromSQL();
 	
+	/**
+	 * Returns the current row of database.
+	 * @return rs ResultSet variable for storing current row of database. 
+	 */
 	public ResultSet getCurrRS() {
 		return rs;
 	}
 	
+	/**
+	 * Sets a ResultSet object to the first row of the database.
+	 * May catch an SQLException, imported from java.sql
+	 */
 	public void setInitialResultSet() {
 		try {
 			rs = getConn().createStatement().executeQuery(getSQLCommand());
 		} 
 		
 		catch (SQLException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Adds data to the object's data list from database.
+	 * May catch an SQLException, imported from java.sql
+	 */
 	public void grabFromDatabase() {
 		setInitialResultSet();
 		try {
@@ -51,7 +82,7 @@ public abstract class GrabDataFromDatabase {
 		}
 		
 		catch (SQLException e) {
-            System.out.println(e.getMessage());          
+            e.printStackTrace();       
         }
 	}
 	
