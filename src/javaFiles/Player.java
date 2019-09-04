@@ -1,4 +1,4 @@
-package javaFiles;
+  package javaFiles;
 
 /**
  * Stores player data.
@@ -90,6 +90,11 @@ public class Player {
 	public void setSkill(int skill) {
 		this.skill = skill;
 	}
+
+	/*@Override
+	public String toString() {
+		return getPlayerName();
+	}*/
 
 	
 }

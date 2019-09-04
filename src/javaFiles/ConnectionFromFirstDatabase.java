@@ -10,7 +10,7 @@ import java.io.File;
 
 public class ConnectionFromFirstDatabase extends ConnectionInterface {
 	/**
-	 * Returns path as a string to "resources/databases/firstDB.db", that the application can use.
+	 * Returns path as a string to "/src/resources/databases/firstDB.db", that the application can use.
 	 * Requires JDBC (found from googling "JDBC"). 
 	 */
 	@Override

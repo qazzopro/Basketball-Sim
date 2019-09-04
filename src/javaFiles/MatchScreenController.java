@@ -2,9 +2,13 @@ package javaFiles;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.CheckComboBox;
+
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,22 +25,30 @@ import javafx.scene.control.Label;
 public class MatchScreenController implements Initializable {
 
 	@FXML
-	private ChoiceBox<String> team1;
+	private ChoiceBox<String> selectTeam1;
 	
 	@FXML
-	private ChoiceBox<String> team2;
+	private ChoiceBox<String> selectTeam2;
 	
 	@FXML
 	private Label result;
 	
 	@FXML
 	private Button playButton;
+	
+	@FXML
+	private CheckComboBox<String> tmpStarters1;
+	
+	@FXML
+	private CheckComboBox<String> tmpStarters2;
 
 	private GrabDataFromDatabase teams;
 	private GrabDataFromDatabase players; 	
 	
+	
+	
 	/** 
-	 * Initialise the controller (after constructor and FXML).
+	 * Initialize the controller (after constructor and FXML).
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -46,18 +58,33 @@ public class MatchScreenController implements Initializable {
 		Connection conn = db.getConnectionFromDatabase();
 		
 		// set teams - could do in method with above
-		setTeams(new TeamsGrabber(conn));
-		setPlayers(new PlayersGrabber(conn));
+		this.setTeams(new TeamsGrabber(conn));
+		this.setPlayers(new PlayersGrabber(conn));
 		
-		// set the datalist to sets
-		getTeams().grabFromDatabase();
-		getPlayers().grabFromDatabase();
+		// ----------------------------------------------
+		
+		// set the data list
+		this.getTeams().grabFromDatabase();
+		this.getPlayers().grabFromDatabase();
 		
 		// User pa to assign players to teams
 		@SuppressWarnings("unchecked")
 		PlayerAssignment pA = new PlayerAssignment((List<Team>)(getTeams().getDataList()), ((List<Player>)getPlayers().getDataList()));
 		pA.assignPlayers();
 		
+		
+		// ------------------------------------------------
+		
+		// Add teams names to choice boxes
+		fillTeamSelection(selectTeam1);
+		fillTeamSelection(selectTeam2);
+		
+		// Add Listeners to handle changing teams
+		addStartersListener(selectTeam1, tmpStarters1);
+		addStartersListener(selectTeam2, tmpStarters2);
+	}
+		
+	private void fillTeamSelection(ChoiceBox<String> choiceBox) {
 		ObservableList<String> obList = FXCollections.observableArrayList();
 		
 		obList.add("Select Team");
@@ -66,12 +93,59 @@ public class MatchScreenController implements Initializable {
 			obList.add(((Team) (getTeams().getDataList().get(i))).getTeamName());
 		}
 		
+		// Add teams to choice boxes
 		obList.remove(32);
 		obList.remove(31);
-		team1.setItems(obList);
-		team2.setItems(obList);
-		team1.setValue("Select Team");
-		team2.setValue("Select Team");
+		
+		choiceBox.setItems(obList);
+		choiceBox.setValue("Select Team");
+	}
+	
+	private void addStartersListener(ChoiceBox<String> choiceBox, CheckComboBox<String> checkComboBox) {
+		choiceBox.
+		getSelectionModel().
+		selectedItemProperty().
+		addListener( (ObservableValue<? extends String> observable, String oldValue, String newValue) -> 
+		{
+			checkComboBox.getItems().clear();
+			ObservableList<String> obList = FXCollections.observableArrayList();
+									
+			try {
+				for (Player p : teamObjectFromString(newValue).getPlayers())
+					obList.add(p.getPlayerName());
+				
+			}	
+			
+			catch (Exception e) {
+				
+			}
+			
+			checkComboBox.getItems().addAll(obList);
+		}
+		);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Team teamObjectFromString(String name) {
+		for (Team t : (List<Team>)getTeams().getDataList()) {
+			
+			if (t.getTeamName() == name) {
+				return t;
+			}					
+		}
+		
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Player playerNameFromString(String name) {
+		
+		for (Player p : (List<Player>)getPlayers().getDataList()) {
+			if (p.getPlayerName() == name)
+				return p;
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -82,23 +156,21 @@ public class MatchScreenController implements Initializable {
 	public void buttonPress() throws Exception {	
 		
 		// Create a match
-		Team chosen1 = null;
-		Team chosen2 = null;
 		
-		for (int i = 0; i < getTeams().getDataList().size(); i++) {
-			Team t = (Team) getTeams().getDataList().get(i);
-			if (t.getTeamName() == team1.getValue()) {
-				chosen1 = t;
-			}
-			
-			if (t.getTeamName() == team2.getValue()) {
-				chosen2 = t;
-			}
+		// First, list the starters.
+		List<Player> starters1 = new ArrayList<>();
+		List<Player> starters2 = new ArrayList<>();
+		
+		for (String name : tmpStarters1.getCheckModel().getCheckedItems()) {
+			starters1.add(playerNameFromString(name));
 		}
+			
+		for (String name : tmpStarters2.getCheckModel().getCheckedItems())
+			starters2.add(playerNameFromString(name));
 		
-		
+		// Add starters to match
 		try {
-			displayMatchResult(new Match(chosen1, chosen2), result);			
+			displayMatchResult(new Match(teamObjectFromString(selectTeam1.getValue()), teamObjectFromString(selectTeam2.getValue()), starters1, starters2), result);		
 		}
 		
 		catch (CustomMatchException e) {
@@ -109,22 +181,30 @@ public class MatchScreenController implements Initializable {
 			result.setText("Please Select Both Teams.");
 		}
 		
-		result.setVisible(true);
+		finally {
+			result.setVisible(true);
+		}
 	}
 	
 	/**
 	 * Displays the match result
 	 * @param match The Match object.
 	 * @param result The label to show the result to player.
-	 * @throws CustomMatchException A custom exception if the two teams are the same.
+	 * @throws CustomMatchException A custom exception if the two teams are the same or 5 players are not selected for each side.
 	 */
 	public void displayMatchResult(Match match, Label result) throws CustomMatchException {
 		
 		if (match.getTeam1().getTeamID() == match.getTeam2().getTeamID()) {
-			throw new CustomMatchException(match.getTeam1(), match.getTeam2());
+			throw new CustomMatchException(match);
 		}
 		
-		result.setText(match.playMatch() + " wins!");
+		else if (match.getStarters1().size() != 5 || match.getStarters2().size() != 5) {
+			throw new CustomMatchException(match);
+		}
+		
+		match.playMatch();
+		
+		result.setText(match.getWinner() + " wins!");
 	}
 
 	/**
@@ -158,5 +238,5 @@ public class MatchScreenController implements Initializable {
 	private void setPlayers(GrabDataFromDatabase players) {
 		this.players = players;
 	}
-
+	
 }
