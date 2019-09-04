@@ -1,5 +1,6 @@
 package javaFiles;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -10,16 +11,20 @@ import java.util.Random;
 public class Match {
 	private Team team1;
 	private Team team2;
+	private int x = 0;
+	private int y = 0;
+	private List<Player> starters1, starters2;
 	
 	/**
 	 * Creates a match with two teams.
 	 * @param team1 First team in match.
 	 * @param team2 Second team in match.
 	 */
-	public Match(Team team1, Team team2) {
+	public Match(Team team1, Team team2) {//, List<Player> starters1, List<Player> starters2) {
 		super();
 		this.team1 = team1;
 		this.team2 = team2;
+		
 	}
 	
 	/**
@@ -28,17 +33,16 @@ public class Match {
 	 * Returns the winning team.
 	 * @return Winning team as String. 
 	 */
-	public String playMatch() {
-		int x = 0;
-		int y = 0;
+	public String playMatch() {			
 		
-		for (Player p : team1.getPlayers()) {
-			x += p.getSkill();
-		}
+		// 
+		for (Player p : team1.getPlayers()) x += p.getSkill();
+		for (Player p : team2.getPlayers()) y += p.getSkill();
 		
-		for (Player p : team2.getPlayers()) {
-			y += p.getSkill();
-		}
+		
+		
+		
+		
 		
 		// Change wins/losses after match
 		if (x > y) {

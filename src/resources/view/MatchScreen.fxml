@@ -4,14 +4,18 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import org.controlsfx.control.CheckComboBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javaFiles.MatchScreenController">
    <children>
-      <Label layoutX="106.0" layoutY="156.0" text="Team 1" />
-      <Label layoutX="466.0" layoutY="156.0" text="Team 2" />
-      <ChoiceBox fx:id="team2" layoutX="371.0" layoutY="188.0" prefHeight="25.0" prefWidth="184.0" />
-      <ChoiceBox fx:id="team1" layoutX="45.0" layoutY="188.0" prefHeight="25.0" prefWidth="172.0" />
+      <Label layoutX="112.0" layoutY="36.0" text="Team 1" />
+      <Label layoutX="444.0" layoutY="36.0" text="Team 2" />
+      <ChoiceBox fx:id="team2" layoutX="372.0" layoutY="65.0" prefHeight="25.0" prefWidth="184.0" />
+      <ChoiceBox fx:id="team1" layoutX="46.0" layoutY="65.0" prefHeight="25.0" prefWidth="172.0" />
       <Label fx:id="result" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="260.0" prefHeight="17.0" prefWidth="600.0" text="Result" textAlignment="CENTER" visible="false" />
-      <Button fx:id="playButton" layoutX="275.0" layoutY="292.0" mnemonicParsing="false" onAction="#buttonPress" onMouseClicked="#buttonPress" text="Play!" />
+      <Button fx:id="playButton" layoutX="276.0" layoutY="293.0" mnemonicParsing="false" onAction="#buttonPress" onMouseClicked="#buttonPress" text="Play!" />
+      <CheckComboBox fx:id="starters1" layoutX="107.0" layoutY="188.0" />
+      <Label layoutX="276.0" layoutY="128.0" text="Starters" />
+      <CheckComboBox fx:id="starters2" layoutX="439.0" layoutY="188.0" />
    </children>
 </AnchorPane>

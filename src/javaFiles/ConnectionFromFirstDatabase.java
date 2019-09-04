@@ -13,7 +13,7 @@ public class ConnectionFromFirstDatabase extends ConnectionInterface {
 	 */
 	@Override
 	public String getDatabasePath() {
-		return "jdbc:sqlite:C:/Users/Dean Jariv/git/Basketball Simulation/src/resources/databases/firstDB.db";
+		return "jdbc:sqlite:C:/Users/Dean/git/Basketball-Sim/src/resources/databases/firstDB.db";
 	}
 	
 }
