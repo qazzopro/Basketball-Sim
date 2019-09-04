@@ -2,12 +2,12 @@ package javaFiles;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.CheckComboBox;
 
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,10 +37,10 @@ public class MatchScreenController implements Initializable {
 	private Button playButton;
 	
 	@FXML
-	private CheckComboBox<Player> starters1;
+	private CheckComboBox<String> tmpStarters1;
 	
 	@FXML
-	private CheckComboBox<Player> starters2;
+	private CheckComboBox<String> tmpStarters2;
 
 	private GrabDataFromDatabase teams;
 	private GrabDataFromDatabase players; 	
@@ -75,34 +75,13 @@ public class MatchScreenController implements Initializable {
 		
 		// ------------------------------------------------
 		
+		// Add teams names to choice boxes
 		fillTeamSelection(selectTeam1);
 		fillTeamSelection(selectTeam2);
 		
-		// Add listener
-		selectTeam1.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() { 
-			
-			// If change team in choice box
-			public void changed(ObservableValue ov, Number value, Number new_value)
-			{
-				Team chosen1 = null;
-				Team chosen2 = null;
-				
-				for (int i = 0; i < getTeams().getDataList().size(); i++) {
-					Team t = (Team) getTeams().getDataList().get(i);
-					if (t.getTeamName() == selectTeam1.getValue()) {
-						chosen1 = t;
-					}
-					
-					if (t.getTeamName() == selectTeam2.getValue()) {
-						chosen2 = t;
-					}
-				}
-				
-				for (Player p : chosen1.getPlayers()) 
-				System.exit(0);
-			}
-		});
-			
+		// Add Listeners to handle changing teams
+		addStartersListener(selectTeam1, tmpStarters1);
+		addStartersListener(selectTeam2, tmpStarters2);
 	}
 		
 	private void fillTeamSelection(ChoiceBox<String> choiceBox) {
@@ -122,6 +101,52 @@ public class MatchScreenController implements Initializable {
 		choiceBox.setValue("Select Team");
 	}
 	
+	private void addStartersListener(ChoiceBox<String> choiceBox, CheckComboBox<String> checkComboBox) {
+		choiceBox.
+		getSelectionModel().
+		selectedItemProperty().
+		addListener( (ObservableValue<? extends String> observable, String oldValue, String newValue) -> 
+		{
+			checkComboBox.getItems().clear();
+			ObservableList<String> obList = FXCollections.observableArrayList();
+									
+			try {
+				for (Player p : teamObjectFromString(newValue).getPlayers())
+					obList.add(p.getPlayerName());
+				
+			}	
+			
+			catch (Exception e) {
+				
+			}
+			
+			checkComboBox.getItems().addAll(obList);
+		}
+		);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Team teamObjectFromString(String name) {
+		for (Team t : (List<Team>)getTeams().getDataList()) {
+			
+			if (t.getTeamName() == name) {
+				return t;
+			}					
+		}
+		
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Player playerNameFromString(String name) {
+		
+		for (Player p : (List<Player>)getPlayers().getDataList()) {
+			if (p.getPlayerName() == name)
+				return p;
+		}
+		
+		return null;
+	}
 	
 	/**
 	 * Button press on scene
@@ -131,23 +156,21 @@ public class MatchScreenController implements Initializable {
 	public void buttonPress() throws Exception {	
 		
 		// Create a match
-		Team chosen1 = null;
-		Team chosen2 = null;
 		
-		for (int i = 0; i < getTeams().getDataList().size(); i++) {
-			Team t = (Team) getTeams().getDataList().get(i);
-			if (t.getTeamName() == selectTeam1.getValue()) {
-				chosen1 = t;
-			}
-			
-			if (t.getTeamName() == selectTeam2.getValue()) {
-				chosen2 = t;
-			}
+		// First, list the starters.
+		List<Player> starters1 = new ArrayList<>();
+		List<Player> starters2 = new ArrayList<>();
+		
+		for (String name : tmpStarters1.getCheckModel().getCheckedItems()) {
+			starters1.add(playerNameFromString(name));
 		}
+			
+		for (String name : tmpStarters2.getCheckModel().getCheckedItems())
+			starters2.add(playerNameFromString(name));
 		
-		
+		// Add starters to match
 		try {
-			displayMatchResult(new Match(chosen1, chosen2), result);		
+			displayMatchResult(new Match(teamObjectFromString(selectTeam1.getValue()), teamObjectFromString(selectTeam2.getValue()), starters1, starters2), result);		
 		}
 		
 		catch (CustomMatchException e) {
@@ -158,22 +181,30 @@ public class MatchScreenController implements Initializable {
 			result.setText("Please Select Both Teams.");
 		}
 		
-		result.setVisible(true);
+		finally {
+			result.setVisible(true);
+		}
 	}
 	
 	/**
 	 * Displays the match result
 	 * @param match The Match object.
 	 * @param result The label to show the result to player.
-	 * @throws CustomMatchException A custom exception if the two teams are the same.
+	 * @throws CustomMatchException A custom exception if the two teams are the same or 5 players are not selected for each side.
 	 */
 	public void displayMatchResult(Match match, Label result) throws CustomMatchException {
 		
 		if (match.getTeam1().getTeamID() == match.getTeam2().getTeamID()) {
-			throw new CustomMatchException(match.getTeam1(), match.getTeam2());
+			throw new CustomMatchException(match);
 		}
 		
-		result.setText(match.playMatch() + " wins!");
+		else if (match.getStarters1().size() != 5 || match.getStarters2().size() != 5) {
+			throw new CustomMatchException(match);
+		}
+		
+		match.playMatch();
+		
+		result.setText(match.getWinner() + " wins!");
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package javaFiles;
 
+import java.io.File;
+
 /**
  * Implementation creates a Connection object using "src/sql/firstDB.db".
  * @author Dean Jariv
@@ -8,12 +10,13 @@ package javaFiles;
 
 public class ConnectionFromFirstDatabase extends ConnectionInterface {
 	/**
-	 * Returns path as a string to "resources/databases/firstDB.db", that the application can use.
+	 * Returns path as a string to "/src/resources/databases/firstDB.db", that the application can use.
 	 * Requires JDBC (found from googling "JDBC"). 
 	 */
 	@Override
 	public String getDatabasePath() {
-		return "jdbc:sqlite:C:/Users/Dean/git/Basketball-Sim/src/resources/databases/firstDB.db";
+		File dbfile = new File("");
+		return "jdbc:sqlite:" + dbfile.getAbsolutePath() + "/src/resources/databases/firstDB.db";
 	}
 	
 }
