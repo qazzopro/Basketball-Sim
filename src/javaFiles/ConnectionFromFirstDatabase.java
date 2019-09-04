@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Implementation creates a Connection object using "src/sql/firstDB.db".
  * @author Dean Jariv
- * @since 26 Aug 2019
+ * @since 5 Sep 2019
  */
 
 public class ConnectionFromFirstDatabase extends ConnectionInterface {

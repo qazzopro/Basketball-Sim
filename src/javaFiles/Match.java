@@ -20,6 +20,8 @@ public class Match {
 	 * Creates a match with two teams.
 	 * @param team1 First team in match.
 	 * @param team2 Second team in match.
+	 * @param starters1 First team's starters.
+	 * @param starters2 Second team's starters.
 	 */
 	public Match(Team team1, Team team2, List<Player> starters1, List<Player> starters2) {
 		super();
@@ -33,7 +35,7 @@ public class Match {
 	
 	/**
 	 * "Plays" a match.
-	 * Winning team determined by the sum of skill attribute of all the players.
+	 * Winning team determined by the sum of skill attribute of the respective starters.
 	 * Sets winner appropriately.
 	 */
 	public void playMatch() {			
@@ -66,38 +68,6 @@ public class Match {
 			}
 		}
 	}
-	
-	/**
-	 * A getter for x.
-	 * @return x.
-	 */
-	public int getX() {
-		return x;
-	}
-
-	/**
-	 * A setter for x.
-	 * @param x x to set.
-	 */
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	/**
-	 * A getter for y.
-	 * @return y.
-	 */
-	public int getY() {
-		return y;
-	}
-
-	/**
-	 * A setter for y.
-	 * @param y y to set.
-	 */
-	public void setY(int y) {
-		this.y = y;
-	}
 
 	/**
 	 * Changes the win/loss of the appropriate teams.
@@ -120,7 +90,43 @@ public class Match {
 		
 		setWinner(team2.getTeamName());
 	}
+	
+	/**
+	 * A getter for x.
+	 * X is the algorithm's evaluation of first team's skill.
+	 * @return x.
+	 */
+	public int getX() {
+		return x;
+	}
 
+	/**
+	 * A setter for x.
+	 * X is the algorithm's evaluation of first team's skill.
+	 * @param x x to set.
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	/**
+	 * A getter for y.
+	 * Y is the algorithm's evaluation of second team's skill.
+	 * @return y.
+	 */
+	public int getY() {
+		return y;
+	}
+
+	/**
+	 * A setter for y.
+	 * Y is the algorithm's evaluation of second team's skill.
+	 * @param y y to set.
+	 */
+	public void setY(int y) {
+		this.y = y;
+	}
+	
 	/**
 	 * A getter for team1.
 	 * @return team1.
@@ -155,6 +161,7 @@ public class Match {
 
 	/**
 	 * A getter for winner.
+	 * Winner is the winning team's name.
 	 * @return winner.
 	 */
 	public String getWinner() {
@@ -163,6 +170,7 @@ public class Match {
 
 	/**
 	 * A setter for winner.
+	 * Winner is the winning team's name.
 	 * @param winner to set.
 	 */
 	public void setWinner(String result) {

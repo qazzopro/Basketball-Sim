@@ -45,8 +45,6 @@ public class MatchScreenController implements Initializable {
 	private GrabDataFromDatabase teams;
 	private GrabDataFromDatabase players; 	
 	
-	
-	
 	/** 
 	 * Initialize the controller (after constructor and FXML).
 	 */
@@ -83,7 +81,11 @@ public class MatchScreenController implements Initializable {
 		addStartersListener(selectTeam1, tmpStarters1);
 		addStartersListener(selectTeam2, tmpStarters2);
 	}
-		
+	
+	/**
+	 * Populates a "Select Team" ChoiceBox with all the NBA team names.
+	 * @param choiceBox The ChoiceBox to populate.
+	 */
 	private void fillTeamSelection(ChoiceBox<String> choiceBox) {
 		ObservableList<String> obList = FXCollections.observableArrayList();
 		
@@ -101,6 +103,11 @@ public class MatchScreenController implements Initializable {
 		choiceBox.setValue("Select Team");
 	}
 	
+	/**
+	 * Populates the players in CheckComboBox according to the selected team from the ChoiceBox.
+	 * @param choiceBox The team selected in ChoiceBox (as String).
+	 * @param checkComboBox The CheckComboBox that is populated with all the players in selected team. 
+	 */
 	private void addStartersListener(ChoiceBox<String> choiceBox, CheckComboBox<String> checkComboBox) {
 		choiceBox.
 		getSelectionModel().
@@ -125,6 +132,12 @@ public class MatchScreenController implements Initializable {
 		);
 	}
 	
+	/**
+	 * Returns a Team object that matches the name given.
+	 * @param name A team's name.
+	 * @return A team object with identical name.
+	 * TODO: Change return criteria from name to ID. (Identical team name).
+	 */
 	@SuppressWarnings("unchecked")
 	private Team teamObjectFromString(String name) {
 		for (Team t : (List<Team>)getTeams().getDataList()) {
@@ -137,6 +150,12 @@ public class MatchScreenController implements Initializable {
 		return null;
 	}
 	
+	/**
+	 * Returns a Player object that matches the name given.
+	 * @param name A player's name.
+	 * @return A player object with identical name. 
+	 * TODO: Change return criteria from name to ID. (Identical player name).
+	 */
 	@SuppressWarnings("unchecked")
 	private Player playerNameFromString(String name) {
 		
