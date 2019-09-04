@@ -20,7 +20,7 @@ import javafx.scene.control.Label;
 /**
  * Controller for showing the match screen.
  * @author Dean Jariv
- * @since 26 Aug 2019
+ * @since 5 Sep 2019
  */
 public class MatchScreenController implements Initializable {
 

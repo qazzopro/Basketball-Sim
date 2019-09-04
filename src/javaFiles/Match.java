@@ -171,7 +171,7 @@ public class Match {
 	/**
 	 * A setter for winner.
 	 * Winner is the winning team's name.
-	 * @param winner to set.
+	 * @param result to set.
 	 */
 	public void setWinner(String result) {
 		this.winner = result;
