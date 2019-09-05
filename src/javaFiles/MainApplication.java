@@ -9,18 +9,18 @@ import javafx.stage.Stage;
 /**
  * Application for running the program.
  * @author Dean Jariv
- * @since 26 Aug 2019
+ * @since 6 Sep 2019
  */
-public class FirstApplication extends Application { 
+public class MainApplication extends Application { 
 	
 	/**
-	 * "Loads MatchScreen.fxml" in a titled window "Play Match" and displays the window.
+	 * "Loads TeamSelectionScreen.fxml" in a titled window "Select Team" and displays the window.
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
 			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/TeamSelection.fxml"));
-			primaryStage.setTitle("Play Match");
+			primaryStage.setTitle("Select Team");
 			primaryStage.setScene(new Scene(root));
 			primaryStage.show();
 		}
