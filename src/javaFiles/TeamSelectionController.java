@@ -22,7 +22,7 @@ import javafx.scene.control.Label;
  * @author Dean Jariv
  * @since 5 Sep 2019
  */
-public class MatchScreenController implements Initializable {
+public class TeamSelectionController implements Initializable {
 
 	@FXML
 	private ChoiceBox<String> selectTeam1;

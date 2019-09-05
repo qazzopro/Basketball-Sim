@@ -12,8 +12,6 @@ public abstract class GrabDataFromFirstDatabase extends GrabDataFromDatabase {
 	public GrabDataFromFirstDatabase(Connection conn) {
 		super(conn);
 	}
-
-	private Connection conn;
 	
 	@Override
 	public abstract List<?> getDataList();
