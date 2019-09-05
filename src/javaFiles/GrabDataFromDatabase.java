@@ -12,6 +12,12 @@ import java.util.List;
  */
 public abstract class GrabDataFromDatabase {	
 	private ResultSet rs;
+	private Connection conn;
+	
+	public GrabDataFromDatabase(Connection conn) {
+		super();
+		this.conn = conn;
+	}
 	
 	/**
 	 * @return A List of of data that the object stores.
@@ -40,7 +46,9 @@ public abstract class GrabDataFromDatabase {
 	/**
 	 * @return Connection object created from the database.
 	 */
-	public abstract Connection getConn();
+	public Connection getConn() {
+		return conn;
+	}
 	
 	/**
 	 * @return Object created from the data in the used SQLite command.

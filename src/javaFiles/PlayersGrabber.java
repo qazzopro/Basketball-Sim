@@ -11,7 +11,6 @@ import java.util.List;
  * @since 26 Aug 2019
  */
 public class PlayersGrabber extends GrabDataFromDatabase {
-	private Connection conn;
 	private List<Player> players = new ArrayList<>();
 	private String sqlCommand = "SELECT PlayerID, PlayerName, TeamID, Skill FROM Players";
 
@@ -20,8 +19,7 @@ public class PlayersGrabber extends GrabDataFromDatabase {
 	 * @param conn Connection object for grabbing players.
 	 */
 	public PlayersGrabber(Connection conn) {
-		super();
-		this.setConn(conn);
+		super(conn);
 	}
 	
 	/** 
@@ -50,28 +48,10 @@ public class PlayersGrabber extends GrabDataFromDatabase {
 	
 	/**
 	 * Returns the SQLite command for retreiving the player's data in "resources/databases/firstdb.db".
-	 * TODO: Extract method to a new superclass, extending from GrabDataFromDatabase to GrabDatafromFirstDatabase.
 	 */
 	@Override
 	public String getSQLCommand() {
 		return sqlCommand;
-	}
-	
-	/**
-	 * Returns a Connection object from "resources/databases/firstdb.db".
-	 * TODO: Extract method to a new superclass, extending from GrabDataFromDatabase to GrabDatafromFirstDatabase.
-	 */
-	@Override
-	public Connection getConn() {
-		return conn;
-	}
-	
-	/**
-	 * A setter for conn.
-	 * @param conn to set.
-	 */
-	public void setConn(Connection conn) {
-		this.conn = conn;
 	}
 
 	/**

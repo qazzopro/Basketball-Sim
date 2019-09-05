@@ -8,37 +8,19 @@ import java.util.List;
 /**
  * Implementation for grabbing teams from "resources/databases/firstdb.db".
  * @author Dean Jariv
- * @since 26 Aug 2019
+ * @since 6 Sep 2019
  */
 public class TeamsGrabber extends GrabDataFromDatabase {
-	private Connection conn;
 	private List<Team> teams = new ArrayList<>();
-	private String sqlCommand = "SELECT TeamID, TeamName, WINS, Losses, [W/L%] FROM Teams";
+	private String sqlCommand;
 	
 	/**
 	 * Constructor for creating a TeamsGrabber object.
 	 * @param conn Connection object for grabbing teams.
 	 */
 	public TeamsGrabber(Connection conn) {
-		super();
-		this.setConn(conn);
-	}
-	
-	/**
-	 * Returns a Connection object from "resources/databases/firstdb.db".
-	 * TODO: Extract method to a new superclass, extending from GrabDataFromDatabase to GrabDatafromFirstDatabase.
-	 */
-	@Override
-	public Connection getConn() {
-		return conn;
-	}
-
-	/**
-	 * A setter for conn.
-	 * @param conn to set.
-	 */
-	public void setConn(Connection conn) {
-		this.conn = conn;
+		super(conn);
+		this.sqlCommand = "SELECT TeamID, TeamName, WINS, Losses, [W/L%] FROM Teams";
 	}
 	
 	/**
