@@ -120,11 +120,9 @@ public class MatchScreenController implements Initializable {
 			try {
 				for (Player p : teamObjectFromString(newValue).getPlayers())
 					obList.add(p.getPlayerName());
-				
 			}	
 			
 			catch (Exception e) {
-				
 			}
 			
 			checkComboBox.getItems().addAll(obList);
