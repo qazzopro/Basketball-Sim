@@ -1,22 +1,27 @@
 package javaFiles;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import org.controlsfx.control.CheckComboBox;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class newTeamController implements Initializable {
 	
@@ -27,10 +32,13 @@ public class newTeamController implements Initializable {
 	private ChoiceBox<String> selectTeam2;
 	
 	@FXML
-	private Button playButton;
+	private Button button;
 	
 	@FXML
 	private ImageView jersey1;
+	
+	@FXML
+	private ImageView jersey2;
 	
 	
 	private GrabDataFromDatabase teams;
@@ -53,11 +61,6 @@ public class newTeamController implements Initializable {
 		this.getTeams().grabFromDatabase();
 		this.getPlayers().grabFromDatabase();
 		
-		// User pa to assign players to teams
-		@SuppressWarnings("unchecked")
-		PlayerAssignment pA = new PlayerAssignment((List<Team>)(getTeams().getDataList()), ((List<Player>)getPlayers().getDataList()));
-		pA.assignPlayers();
-		
 		// ----------------------------------------------
 		
 		// Add teams names to choice boxes for choosing teams
@@ -65,11 +68,11 @@ public class newTeamController implements Initializable {
 		fillTeamSelection(selectTeam2);
 		
 		// Add Listeners to handle changing teams
-		addJerseyListener(selectTeam1);
-		addJerseyListener(selectTeam2);
+		addJerseyListener(selectTeam1, jersey1);
+		addJerseyListener(selectTeam2, jersey2);
 	}
 	
-	private void addJerseyListener(ChoiceBox<String> choiceBox) {
+	private void addJerseyListener(ChoiceBox<String> choiceBox, ImageView image) {
 		choiceBox.
 		getSelectionModel().
 		selectedItemProperty().
@@ -78,9 +81,37 @@ public class newTeamController implements Initializable {
 			// Change Jersey Image for the selected team
 			
 			// Find correct file 
-			Image newImage = new Image("/" + newValue);
+			File f = new File("");
+			
+			try {
+				Image newJersey = new Image(new FileInputStream(f.getAbsolutePath() + "/src/resources/images/jerseys/" + newValue + ".jpg"));
+				image.setImage(newJersey);
+			} 
+			
+			catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 		);
+	}
+	
+	/**
+	 * Button press to go to player selection
+	 * @throws Exception - An exception
+	 */
+	@FXML
+	public void buttonPress() throws Exception {	
+		
+		try {
+			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/PlayerSelection.fxml"));
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
