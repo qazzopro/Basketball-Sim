@@ -11,7 +11,7 @@ import java.util.Random;
 public class Match {
 	private Team team1;
 	private Team team2;
-	private int x;
+	private int x; 
 	private int y;
 	private List<Player> starters1, starters2;
 	private String winner;

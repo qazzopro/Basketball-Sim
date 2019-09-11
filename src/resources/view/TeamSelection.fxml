@@ -12,8 +12,8 @@
       <Label layoutX="444.0" layoutY="36.0" text="Team 2" />
       <ChoiceBox fx:id="selectTeam2" layoutX="372.0" layoutY="65.0" prefHeight="25.0" prefWidth="184.0" />
       <ChoiceBox fx:id="selectTeam1" layoutX="46.0" layoutY="65.0" prefHeight="25.0" prefWidth="172.0" />
-      <Label fx:id="result" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="260.0" prefHeight="17.0" prefWidth="600.0" text="Result" textAlignment="CENTER" visible="false" />
-      <Button fx:id="playButton" layoutX="276.0" layoutY="293.0" mnemonicParsing="false" text="Select Players" />
+      <Label fx:id="errMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="260.0" prefHeight="17.0" prefWidth="600.0" text="Error Message" textAlignment="CENTER" visible="false" />
+      <Button fx:id="playButton" layoutX="257.0" layoutY="311.0" mnemonicParsing="false" onMouseClicked="#buttonPress" text="Select Players" />
       <ImageView fx:id="jersey1" fitHeight="150.0" fitWidth="172.0" layoutX="46.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="jersey2" fitHeight="150.0" fitWidth="172.0" layoutX="378.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
    </children>
